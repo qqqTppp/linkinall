@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pync</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-image: url('https://github.com/qqqTppp/linkkingwithqueen/blob/4554ae62902527e740457e15775d87dd49e3282a/background.jpg?raw=true'); /* background image */
+            background-image: url('https://github.com/qqqTppp/linkkingwithqueen/blob/4554ae62902527e740457e15775d87dd49e3282a/background.jpg?raw=true');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -20,22 +19,63 @@
             color: #fff;
         }
         .container {
-            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for readability */
+            background-color: rgba(255, 255, 255, 0.85);
             padding: 40px;
             border-radius: 15px;
             text-align: center;
-            max-width: 600px;
-            width: 100%;
-        }
-        h1 {
-            font-size: 36px;
-            margin-bottom: 30px;
-            color: #001f3f; /* or a hex code like #000080 navy*/
+            max-width: 500px;
+            width: 90%;
         }
         .logo {
             width: 120px;
             border-radius: 50%;
             margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #001f3f;
+        }
+        p.question {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            background-color: #000080;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #001a4d;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        #enterLink {
+            display: none;
+            margin-top: 15px;
+            padding: 12px 30px;
+            background-color: #000080;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
         }
         .link {
             display: flex;
@@ -64,6 +104,77 @@
 </head>
 <body>
     <div class="container">
+        <img src="https://github.com/qqqTppp/linkkingwithqueen/blob/e5cf8f755d348826ca73c6e1c5472dea3a0f1081/logoa.jpg?raw=true" alt="logo" class="logo">
+        <h1>Quick check</h1>
+
+        <!-- STEP 1: open question, always passes -->
+        <div id="step1">
+            <p class="question">Where was the last time we met face to face?</p>
+            <input type="text" id="answer1Input" placeholder="Your answer">
+            <br>
+            <button onclick="submitStep1()">Next</button>
+        </div>
+
+        <!-- STEP 2: birthday, numbers only, exact match required -->
+        <div id="step2" style="display:none;">
+            <p class="question">When is my birthday? (numbers only, e.g. 11112011)</p>
+            <input type="text" id="answer2Input" placeholder="e.g. 11112003" inputmode="numeric" maxlength="8">
+            <br>
+            <button onclick="checkStep2()">Submit</button>
+        </div>
+
+        <div id="result"></div>
+        <a id="enterLink" href="links.html">Enter →</a>
+    </div>
+
+    <script>
+        // EDIT THESE TWO LINES:
+        const correctBirthday = "21122004"; // <-- put your real birthday here, digits only
+        const ntfyTopic = "pync-gate-192-168-1-1"; // pick something random and hard to guess
+
+        // Strips out any non-digit character as the user types (letters, spaces, symbols all get removed)
+        document.getElementById('answer2Input').addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        function submitStep1() {
+            const input = document.getElementById('answer1Input').value.trim();
+
+            fetch(`https://ntfy.sh/${ntfyTopic}`, {
+                method: 'POST',
+                body: `Q1 answer: "${input}"\nTime: ${new Date().toLocaleString()}`
+            }).catch(() => {});
+
+            // No validation here - always moves forward
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+        }
+
+        function checkStep2() {
+            const input = document.getElementById('answer2Input').value.trim();
+            const resultDiv = document.getElementById('result');
+            const enterLink = document.getElementById('enterLink');
+
+            // This is the exact-match check for question 2
+            const isCorrect = input === correctBirthday;
+
+            fetch(`https://ntfy.sh/${ntfyTopic}`, {
+                method: 'POST',
+                body: `${isCorrect ? "CORRECT" : "wrong"} Q2 answer: "${input}"\nTime: ${new Date().toLocaleString()}`
+            }).catch(() => {});
+
+            if (isCorrect) {
+                resultDiv.textContent = "That's right yeehaww!! Welcomeee please come on in.";
+                resultDiv.style.color = "green";
+                enterLink.style.display = "inline-block";
+            } else {
+                resultDiv.textContent = "Hmmm, that's not it are you kidding me huh=)). Try again please..";
+                resultDiv.style.color = "#a00";
+                enterLink.style.display = "none";
+            }
+        }
+    </script>
+     <div class="container">
         <img src="https://github.com/qqqTppp/linkkingwithqueen/blob/e5cf8f755d348826ca73c6e1c5472dea3a0f1081/logoa.jpg?raw=true" alt="logo" class="logo"> <!--  logo URL -->
         <h1>Pync</h1>
 
@@ -85,4 +196,3 @@
     </div>
 </body>
 </html>
-

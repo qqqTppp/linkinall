@@ -33,117 +33,38 @@
         }
         h1 {
             font-size: 28px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             color: #001f3f;
         }
-        p.question {
-            font-size: 18px;
+        p.welcome-text {
+            font-size: 17px;
             color: #333;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            line-height: 1.5;
         }
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
+        .go-button {
+            display: inline-block;
+            padding: 14px 30px;
             font-size: 16px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            margin-bottom: 15px;
-        }
-        button {
-            padding: 12px 30px;
-            font-size: 16px;
-            background-color: #000080;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #001a4d;
-        }
-        #result {
-            margin-top: 20px;
-            font-size: 16px;
-        }
-        #enterLink {
-            display: none;
-            margin-top: 15px;
-            padding: 12px 30px;
             background-color: #000080;
             color: white;
             text-decoration: none;
             border-radius: 8px;
-            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .go-button:hover {
+            background-color: #001a4d;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="https://github.com/qqqTppp/linkkingwithqueen/blob/e5cf8f755d348826ca73c6e1c5472dea3a0f1081/logoa.jpg?raw=true" alt="logo" class="logo">
-        <h1>Im cooking something, I want to share some with you..</h1>
-        <h1>.. Quick check firstly =))<h1>
-
-        <div id="step1">
-            <p class="question">Where exactly did we meet last time?</p>
-            <input type="text" id="answer1Input" placeholder="Your answer">
-            <br>
-            <button onclick="submitStep1()">Next</button>
-        </div>
-
-        <div id="step2" style="display:none;">
-            <p class="question">When is my birthday? (numbers only, e.g. 11112011)</p>
-            <input type="text" id="answer2Input" placeholder="e.g. 11112011" inputmode="numeric" maxlength="8">
-            <br>
-            <button onclick="checkStep2()">Submit</button>
-        </div>
-
-        <div id="result"></div>
-        <a id="enterLink" href="links.html">Enter →</a>
+        <h1>Holaa, welcomeee!</h1>
+        <p class="welcome-text">This is my little corner of the internet, where I keep all my stuffs in one place. Im cooking something, so just want to make sure it's really you before I share some with you.</p>
+        <a href="gate.html" class="go-button">okeyy lets bring some gift homeee</a>
     </div>
-
-    <script>
-        const correctBirthday = "21122004"; // <-- your real birthday, digits only
-        const ntfyTopic = "pync-gate-192-168-1-1"; // your private topic name
-
-        document.getElementById('answer2Input').addEventListener('input', function () {
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
-
-        function submitStep1() {
-            const input = document.getElementById('answer1Input').value.trim();
-
-            fetch(`https://ntfy.sh/${ntfyTopic}`, {
-                method: 'POST',
-                body: `Q1 answer: "${input}"\nTime: ${new Date().toLocaleString()}`
-            }).catch(() => {});
-
-            document.getElementById('step1').style.display = 'none';
-            document.getElementById('step2').style.display = 'block';
-        }
-
-        function checkStep2() {
-            const input = document.getElementById('answer2Input').value.trim();
-            const resultDiv = document.getElementById('result');
-            const enterLink = document.getElementById('enterLink');
-            const isCorrect = input === correctBirthday;
-
-            fetch(`https://ntfy.sh/${ntfyTopic}`, {
-                method: 'POST',
-                body: `${isCorrect ? "CORRECT" : "wrong"} Q2 answer: "${input}"\nTime: ${new Date().toLocaleString()}`
-            }).catch(() => {});
-
-            if (isCorrect) {
-                resultDiv.textContent = "That's right yeehaww!! Welcomeee please come on in.";
-                resultDiv.style.color = "green";
-                enterLink.style.display = "inline-block";
-            } else {
-                resultDiv.textContent = "Hmmm, that's not it are you kidding me huh=)). Try again please..";
-                resultDiv.style.color = "#a00";
-                enterLink.style.display = "none";
-            }
-        }
-    </script>
 </body>
 </html>

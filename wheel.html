@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spin the Wheel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffebcd;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px 0;
+            background-image: url('https://cdn1.arsenalinsider.com/uploads/19/2024/08/GettyImages-1862251361-scaled.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff3e6;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h1 {
+            color: #ff4500;
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .cake {
+            width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 10px;
+        }
+
+        button:hover {
+            background-color: #ff6347;
+        }
+
+        .blinking {
+            animation: blinker 1.5s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        #surprise-message {
+            color: #ff4500;
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+
+        #wheel-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        #wheel {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 10px solid #ff4500;
+            position: relative;
+            overflow: hidden;
+            transform: rotate(-90deg);
+            transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
+            background: conic-gradient(
+                #FF9999 0% 12.5%,
+                #99FF99 12.5% 25%,
+                #9999FF 25% 37.5%,
+                #FFFF99 37.5% 50%,
+                #FFCC99 50% 62.5%,
+                #CCFF99 62.5% 75%,
+                #99CCFF 75% 87.5%,
+                #FF99CC 87.5% 100%
+            );
+        }
+
+        .wheel-label {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #ff4500;
+            font-size: 0.8em;
+            font-weight: bold;
+            transform-origin: 100% 100%;
+            transform: rotate(-22.5deg);
+        }
+
+        .wheel-label:nth-child(1) { transform: rotate(0deg); }
+        .wheel-label:nth-child(2) { transform: rotate(45deg); }
+        .wheel-label:nth-child(3) { transform: rotate(90deg); }
+        .wheel-label:nth-child(4) { transform: rotate(135deg); }
+        .wheel-label:nth-child(5) { transform: rotate(180deg); }
+        .wheel-label:nth-child(6) { transform: rotate(225deg); }
+        .wheel-label:nth-child(7) { transform: rotate(270deg); }
+        .wheel-label:nth-child(8) { transform: rotate(315deg); }
+
+        #result-container {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff3e6;
+            border: 2px solid #ff4500;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+
+        #prize-message {
+            font-size: 1.2em;
+            color: #006400;
+        }
+
+        #continueLink {
+            display: none;
+            margin-top: 15px;
+            padding: 12px 30px;
+            background-color: #000080;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="birthday-message">Hùuuuuu!</h1>
+        <img src="cake.jpg" alt="Birthday Cake" class="cake">
+        <button id="gun-button" class="blinking" onclick="showSurprise()">Click meeeeeee</button>
+        <p id="surprise-message"></p>
+    </div>
+
+    <div id="wheel-container">
+        <div id="wheel">
+            <div class="wheel-label">Transport Gift Code L8RA2K17:</div>
+            <div class="wheel-label">Shopping Voucher $50</div>
+            <div class="wheel-label">Free Movie Tickets</div>
+            <div class="wheel-label">Giftcode from Traveloka</div>
+            <div class="wheel-label">Spa Day Pass</div>
+            <div class="wheel-label">Coffee Card $25</div>
+            <div class="wheel-label">Free Gym Membership</div>
+            <div class="wheel-label">Surprise Gift</div>
+        </div>
+        <button onclick="spinWheel()">Spin the Wheel</button>
+    </div>
+
+    <div id="result-container">
+        <p id="prize-message"></p>
+        <a id="continueLink" href="links.html">Continue →</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        function showSurprise() {
+            const message = "Dangg u got a free spin yayy! Wishing you a day filled with love, joy, and low calorie cakes!";
+            document.getElementById('surprise-message').textContent = message;
+
+            const button = document.getElementById('gun-button');
+            button.classList.remove('blinking');
+        }
+
+        function spinWheel() {
+            const wheel = document.getElementById('wheel');
+            const prizes = [
+                "5-year ride & drive pass, extended by 1 year (free access)",
+                "Special Gift: $50 Shopping Voucher",
+                "Special Gift: Free Movie Tickets",
+                "Special Gift: Giftcode from Traveloka",
+                "Special Gift: Spa Day Pass",
+                "Special Gift: $25 Coffee Card",
+                "Special Gift: Free Gym Membership for 1 Year",
+                "Special Gift: Surprise Gift"
+            ];
+
+            const selectedPrizeIndex = 0;
+
+            const rotationDegree = 3600 + (selectedPrizeIndex * 45) + (Math.random() * 45);
+            wheel.style.transform = `rotate(${rotationDegree}deg)`;
+
+            setTimeout(() => {
+                document.getElementById('prize-message').textContent =
+                    "CONGRATULATIONS! You won: " + prizes[selectedPrizeIndex];
+
+                document.getElementById('continueLink').style.display = 'inline-block';
+
+                const blinkConfetti = () => {
+                    confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 }
+                    });
+                };
+
+                blinkConfetti();
+                setTimeout(blinkConfetti, 500);
+                setTimeout(blinkConfetti, 1000);
+                setTimeout(blinkConfetti, 1500);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

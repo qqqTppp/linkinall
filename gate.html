@@ -92,8 +92,8 @@
         </div>
 
         <div id="step2" style="display:none;">
-            <p class="question">When is my birthday? (numbers only, e.g. 11112011)</p>
-            <input type="text" id="answer2Input" placeholder="e.g. 11112011" inputmode="numeric" maxlength="8">
+            <p class="question">When is my birthday? (numbers only: DDMMYY, e.g. 15012002)</p>
+            <input type="text" id="answer2Input" placeholder="e.g. 15012002" inputmode="numeric" maxlength="8">
             <br>
             <button onclick="checkStep2()">Submit</button>
         </div>
@@ -138,7 +138,7 @@
                 resultDiv.style.color = "green";
                 enterLink.style.display = "inline-block";
             } else {
-                resultDiv.textContent = "Hmmm, that's not it are you kidding me huh=)). Try again please..";
+                resultDiv.textContent = "Hmmm that's not it =)) are you kidding me huh. Try again please..";
                 resultDiv.style.color = "#a00";
                 enterLink.style.display = "none";
             }

@@ -202,7 +202,7 @@
                 "Special Gift: Surprise Gift"
             ];
 
-            const selectedPrizeIndex = 0;
+            const selectedPrizeIndex = Math.floor(Math.random() * prizes.length);/*const selectedPrizeIndex = 0; */
 
             const rotationDegree = 3600 + (selectedPrizeIndex * 45) + (Math.random() * 45);
             wheel.style.transform = `rotate(${rotationDegree}deg)`;
